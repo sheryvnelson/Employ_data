@@ -1,0 +1,123 @@
+
+.container a{
+    color:black;
+}
+
+#edit{
+    background-color: rgb(230, 54, 54);
+    
+}
+#Tablelist  td,th{
+
+   font-size:18px;
+   
+   
+    border: solid  1px rgb(87, 86, 86);
+    /* border-collapse: collapse; */
+    padding: 5px 5px;
+    text-align: center;
+}
+.popup{
+    position: absolute;
+    top:70%;
+    left:60%;
+    transform:translate(-50%,-50%) ;
+    width:450px;
+    padding:20px 30px;
+    background:white ;
+    box-shadow:2px 2px 5px 5px rgb(0,0,0,0,15) ;
+    border-radius: 10px ;
+    display:none;
+
+}
+
+.popup.form h3{
+    text-align: center;
+    color:#2222;
+    margin :10px 10px 20px;
+    font-size:20px ;
+} 
+.form-element  label{   
+    color:black;
+    font-size:20px ;   
+
+}
+select {
+    display: block;
+}
+.removed {
+    position: fixed;
+    top: 4px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: 400px;
+    padding: 6px;
+    background-color: rgb(181, 78, 10);
+    color: white;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    visibility: hidden;
+  }
+  .addalert {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: 400px;
+    padding: 6px;
+    background-color: green;
+    color: white;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    visibility: hidden;
+  }
+  .changealert {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-width: 400px;
+    padding: 6px;
+    background-color: green;
+    color: white;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    visibility: hidden;
+  }
+
+.pagination{
+    margin-top: 5px;
+    padding-left:600px;
+    
+}
+.pagination a {
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a {
+  background-color: rgb(241, 231, 231);
+  color: rgb(58, 55, 55);
+  border-radius: 5px;
+}
+
+.pagination a:hover {
+  background-color: #ddd;
+  color: black;
+  border-radius: 5px;
+}
+  
+
+
+
+

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+        integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/745e131cff.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Data Table</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-wrapper grey">
+            <div class="container">
+                <a href="#" class="brand-logo center">User Listing</a>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+
+
+    <div class="container">
+
+        <input type="text" name="" id="search-input" class="in searchbtn" placeholder="Searching Names...."
+            onkeyup="searching()">
+
+
+    </div>
+    <div class="right">
+        <button class="btn btn pull right" onclick="show()"><i class="fa fa-plus"></i>Add
+            User</button>
+    </div>
+    <!-- userRegistration -->
+    <form name="myform" class="popup " id="popupdata" onsubmit="event.preventDefault(); AddRow() " autocomplete="off">
+
+
+        <div class="form">
+            <input type="hidden" id="index">
+            <h3>Registration</h3>
+            <div class="form-element">
+                <label for="id">ID</label>
+                <input type="Number" id="id" placeholder="Enter Number">
+                <span class="msg" id="msgId"></span>
+            </div>
+            <div class="form-element">
+                <label for="salutation1">Salutation</label>
+                <select id="salutation1" name="salutation">
+                    <option>--Select --</option>
+                    <option>Mr</option>
+                    <option>Ms</option>
+                    <option>Miss</option>
+                    <span class="msg" id="msgSalutation"></span>
+                </select>
+            </div>
+            <div class="form-element">
+                <label for="firstname">FirstName</label>
+                <input type="text" id="firstname" placeholder="Enter First Name">
+                <span class="msg" id="msgfirstname"></span>
+            </div>
+            <div class="form-element">
+                <label for="lastname">LastName</label>
+                <input type="text" id="lastname" placeholder="Enter Last Name">
+                <span class="msg" id="msglastname"></span>
+            </div>
+            <div class="form-element">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter Email">
+                <span class="msg" id="msgemail"></span>
+            </div>
+            <div class="form-element">
+                <label for="phoneno">Phone No</label>
+                <input name="num" type="number" id="phoneno" placeholder="Enter Phone No">
+                <span class="msg" id="msgno"></span>
+            </div>
+            <div class="form-element">
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="Enter city name">
+                <span class="msg" id="msgcity"></span>
+            </div>
+
+            <div class="form-element">
+                <label for="Gender"><b>Gender</b></label>
+                <input type="radio" id="male" name="gender" value="male" checked>
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="female">
+                <label for="female">Female</label>
+                <input type="radio" id="other" name="gender" value="other">
+                <label for="other">Other</label>
+            </div>
+            <br>
+            <div class="form-element">
+
+
+
+                <label>Country</label>
+                <select id="countrys" onchange="countrychange()">
+                    <option>select nation</option>
+                    <option>India</option>
+                    <option>Germany</option>
+                    <option>Canada</option>
+                </select>
+            </div>
+        </div><br>
+        <div class="form-element">
+
+
+            <label>State</label>
+            <select id="selected">
+                <option></option>
+                <option>Kerala</option>
+                <option>Haryana</option>
+                <option>Karnataka</option>
+                <option>Alberta</option>
+                <option>Manitoba</option>
+                <option>Novia Scotia</option>
+                <option>Usco</option>
+            </select>
+        </div>
+
+
+
+
+        </div>
+
+
+        <br>
+        <button type="submit" value="submit" id="btnSave" class="btn btn-info" onClick="save()">Save</button>
+
+        <button type=" reset" class="btn btn-secondary" onClick="hide()">Cancel</button>
+
+    </form>
+    <div class="removed"> user has been deleted !!</div>
+    <div class="addalert">User added sucessfully !!</div>
+    <div class="changealert">Saved Changes !!</div>
+
+
+    </div>
+    <br>
+    <br>
+
+    <!-- Tablelisting -->
+    <table id="Tablelist">
+        <thead id="thead"></thead>
+        <tbody id="myData"></tbody>
+    </table>
+    <br>
+
+    </div>
+
+    <!-- pagination -->
+    <div id="showpage">
+        <select name="" id="page" hidden>
+            <option value="8" selected>8</option>
+        </select>
+
+
+        <div class="pagination">
+            <a href="#" id="previ">PREV</a>
+            <a href="#" id="next">NEXT</a>
+            <a href="#" id="all">ALL</a>
+        </div>
+    </div>
+
+
+
+    <script src="app.js"></script>
+</body>
+
+</html>
