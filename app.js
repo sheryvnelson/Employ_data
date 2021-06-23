@@ -288,7 +288,7 @@ function editUser(i) {
 
     // console.log(i)
     var arr = persondoc[i];
-    console.log(arr);
+    // console.log(arr);
     document.getElementById('id').value = arr.id;
     document.getElementById('salutation1').value = arr.salutation;
     document.getElementById('firstname').value = arr.firstname;
@@ -305,34 +305,5 @@ function editUser(i) {
 
 
 }
-// function save() {
-//     document.getElementById('btnsave').style.display = 'block';
-// };
-
-// let id = document.getElementById('id');
-// let msg = document.querySelector('.msg');
-// let salutation = document.getElementById('salutation1');
-// let fname = document.getElementById('firstname');
-// let lname = document.getElementById('lastname');
-// let email = document.getElementById('email');
-// let phone = document.getElementById('phoneno');
-// let city = document.getElementById("city");
-
-// id.addEventListener('input', function () {
-//     if (id.value.length > 2 || id.value === '') {
-//         id.style.color = 'red';
-//         document.getElementById('msgId').innerHTML = "**not large than 2";
-//         msg.style.color = 'red';
-
-//     }
-//     else {
-//         document.getElementById('msgId').innerHTML = "";
-//         id.style.color = 'green';
-//     }
-//     // resetForm();
-// })
-
-
-
 
 
