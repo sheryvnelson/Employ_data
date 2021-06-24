@@ -40,7 +40,7 @@
             User</button>
     </div>
     <!-- userRegistration -->
-    <form name="myform" class="popup " id="popupdata" onsubmit="event.preventDefault(); AddRow() " autocomplete="off">
+    <form name="myform" class="popup " id="popupdata" onsubmit=" AddRow(); " autocomplete="off">
 
 
         <div class="form">
@@ -48,7 +48,7 @@
             <h3>Registration</h3>
             <div class="form-element">
                 <label for="id">ID</label>
-                <input type="Number" id="id" placeholder="Enter Number">
+                <input type="Number" id="id" placeholder="Enter Number" required>
                 <span class="msg" id="msgId"></span>
             </div>
             <div class="form-element">
@@ -98,11 +98,8 @@
             </div>
             <br>
             <div class="form-element">
-
-
-
                 <label>Country</label>
-                <select id="countrys" onchange="countrychange()">
+                <select id="countrys">
                     <option>select nation</option>
                     <option>India</option>
                     <option>Germany</option>
@@ -116,13 +113,7 @@
             <label>State</label>
             <select id="selected">
                 <option></option>
-                <option>Kerala</option>
-                <option>Haryana</option>
-                <option>Karnataka</option>
-                <option>Alberta</option>
-                <option>Manitoba</option>
-                <option>Novia Scotia</option>
-                <option>Usco</option>
+
             </select>
         </div>
 
@@ -133,9 +124,9 @@
 
 
         <br>
-        <button type="submit" value="submit" id="btnSave" class="btn btn-info" onClick="save()">Save</button>
+        <button type="submit" value="submit" id="btnSave" class="btn btn-info" onsubmit=" AddRow(); ">Save</button>
 
-        <button type=" reset" class="btn btn-secondary" onClick="hide()">Cancel</button>
+        <button type="reset" class="btn btn-secondary" id="btncancel" onClick=" hide(); ">Cancel</button>
 
     </form>
     <div class="removed"> user has been deleted !!</div>
@@ -159,7 +150,7 @@
     <!-- pagination -->
     <div id="showpage">
         <select name="" id="page" hidden>
-            <option value="8" selected>8</option>
+            <option value="9" selected>8</option>
         </select>
 
 

@@ -1,6 +1,9 @@
 // Retrieving Data from json file
+
+// globally  declared array.
 let persondoc = [];
 let page = 0;
+
 fetch("detail.json")
 
     .then(function (response) {
@@ -11,14 +14,20 @@ fetch("detail.json")
         const no = parseInt(document.getElementById('page').value);
         const start = page * no;
         const end = page * no + no;
-        const action = persondoc.slice(start, end);
-        formData(action);
-    })
+        const temp = persondoc.slice(start, end);
+        // console.log(temp);
+        formData(temp);
+
+    });
+
+
+
 function formData(arrays) {
+
     var docs = `<tr>
                 <th>ID</th>
                 <th>Salutation</th>
-                <th onclick="sortTable(2)">FirstName<i class="fas fa-sort"></i></th>
+                 <th > FirstName <button id="namecol" class="namesort"><i class="fas fa-sort"></i></button> 
                 <th>LastName</th>
                 <th>Email</th>
                 <th>Gender</th>
@@ -26,10 +35,12 @@ function formData(arrays) {
                 <th>Country</th>
                 <th>State</th>
                 <th>City</th>
-                <th onclick="sortTable(10,'D','ymd')" id="datecol">Date<i class="fas fa-sort"></i>
+                <th >Date<button id="datecol" class="datesort"><i class="fas fa-sort"></i></button>
                 </th>
                 <th>Options</th>
                 </tr>`;
+    // <button id="namecol" class="namesort"><i class="fas fa-sort"></i></button> 
+    // <button id="datecol" class="datesort"><i class="fas fa-sort"></i></button>
     arrays.forEach(function (arr, i) {
         docs += `<tr>
                 <td>${arr.id}</td>
@@ -48,137 +59,182 @@ function formData(arrays) {
     })
     document.getElementById("Tablelist").innerHTML = docs;
 
-}
-// 
+};
+
 document.getElementById("previ").addEventListener("click", function () {
-    // alert("Hai");
+
     const no = parseInt(document.getElementById('page').value);
     const start = page * no;
     const end = page * no + no;
-    const action = persondoc.slice(start, end);
-    console.log(action);
-    formData(action);
-})
+    const temp = persondoc.slice(start, end);
+    console.log(temp);
+    formData(temp);
+});
+
 document.getElementById("next").addEventListener("click", function () {
-    // alert("Hai");
+
     const no = parseInt(document.getElementById('page').value);
     const start = no;
     const end = no + 9;
-    const action = persondoc.slice(start, end);
-    console.log(action);
-    formData(action);
-})
+    const temp = persondoc.slice(start, end);
+    console.log(temp);
+    formData(temp);
+
+});
 
 document.getElementById("all").addEventListener("click", function () {
-    // alert("Hai");
+
+    // formData(temp);
     formData(persondoc);
-})
+});
 
 
-// searching
-function searching() {
-    let count = document.getElementById('Tablelist').rows[0].cells.length//col count
-    let input, filter, table, tr, td, i;
-    input = document.getElementById("search-input");
-    var input_value = document.getElementById("search-input").value;
-    filter = input.value.toLowerCase();
-    if (input_value != '') {
-        table = document.getElementById("Tablelist");
-        tr = table.getElementsByTagName("tr");//loop through each cell
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 1; i < tr.length; i++) {
-            var flag = 0;
-            for (j = 0; j < count; j++) {
-                td = tr[i].getElementsByTagName("td")[j];
-                if (td) {
-                    var td_text = td.innerHTML;
-                    if (td.innerHTML.toLowerCase().indexOf(filter) > -1) {
-                        flag = 1;
-                    } else {
-                        //pass
-                    }
-                }
-            }
-            if (flag == 1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
+
+//Search input
+
+const usersearch = document.getElementById('search-input');
+// Search input Eventlistner
+usersearch.addEventListener('keyup', (e) => {
+    // Get searching input
+    const textinput = e.target.value;
+    const filtername = persondoc.filter(data => (data.firstname.toLowerCase()).match(textinput.toLowerCase()));
+    console.log(filtername);
+    formData(filtername);
+
+});
+
+
+// sorting by name
+// function sortTable(n) {
+//     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+//     table = document.getElementById("Tablelist");
+//     switching = true;
+//     //Set the sorting direction to ascending:
+//     dir = "asc";
+//     /*Make a loop that will continue until
+//     no switching has been done:*/
+//     while (switching) {
+//         //start by saying: no switching is done:
+//         switching = false;
+//         rows = table.rows;
+//         /*Loop through all table rows (except the
+//         first, which contains table headers):*/
+//         for (i = 1; i < (rows.length - 1); i++) {
+//             //start by saying there should be no switching:
+//             shouldSwitch = false;
+//             /*Get the two elements you want to compare,
+//             one from current row and one from the next:*/
+//             x = rows[i].getElementsByTagName("TD")[n];
+//             y = rows[i + 1].getElementsByTagName("TD")[n];
+//             /*check if the two rows should switch place,
+//             based on the direction, asc or desc:*/
+//             if (dir == "asc") {
+//                 if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+//                     //if so, mark as a switch and break the loop:
+//                     shouldSwitch = true;
+//                     break;
+//                 }
+//             } else if (dir == "desc") {
+//                 if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+//                     //if so, mark as a switch and break the loop:
+//                     shouldSwitch = true;
+//                     break;
+//                 }
+//             }
+//         }
+//         if (shouldSwitch) {
+
+//             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+//             switching = true;
+
+//             switchcount++;
+//         } else {
+//             /*If no switching has been done AND the direction is "asc",
+//             set the direction to "desc" and run the while loop again.*/
+//             if (switchcount == 0 && dir == "asc") {
+//                 dir = "desc";
+//                 switching = true;
+//             }
+//         }
+//     }
+// }
+
+// sort
+
+let ascendname = true;
+let namesorts = document.getElementById('Tablelist');
+namesorts.addEventListener('click', (e) => {
+    if (ascendname) {
+        persondoc.sort((a, b) => {
+            ascendname = false;
+            var firstName = a.firstname.toLowerCase();
+            var secondName = b.firstname.toLowerCase();
+
+            return (firstName < secondName) ? -1 : (firstName > secondName) ? 1 : 0;
+        })
+
+    } else {
+        persondoc.sort((a, b) => {
+            ascendname = true;
+            var firstName = a.firstname.toLowerCase();
+            var secondName = b.firstname.toLowerCase();
+
+            return (firstName < secondName) ? 1 : (firstName > secondName) ? -1 : 0;
+        })
     }
-}
+    formData(persondoc);
+});
+
+// let isAscDate = true;
+// // let isAscDateSorted = true;
+// const sortdate = document.getElementById('datecol');
+
+// sortdate.addEventListener('blur', (e) => {
+//     if (isAscDate) {
+//         persondoc.sort((a, b) => {
+
+//             isAscDate = false;
+//             console.log("date" + a.date);
+//             var date = Date(a.date);
+
+//             console.log(date);
+//             var secondDate = Date(b.date);
+//             // Ternary Operator (if it will check the condition ) then -1 else if()
+//             return (date - secondDate);
+//         })
+//     } else {
+//         persondoc.sort((a, b) => {
+//             isAscDate = true;
+//             var date = Date(a.date);
+
+//             var secondDate = Date(b.date);
+//             // Ternary Operator (if it will check the condition ) then -1 else if()
+//             return (secondDate - date);
+//         })
+//     }
+//     formData(persondoc);
+// });
 
 
 
-// sorting
 
-
-
-function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("Tablelist");
-    switching = true;
-    //Set the sorting direction to ascending:
-    dir = "asc";
-    /*Make a loop that will continue until
-    no switching has been done:*/
-    while (switching) {
-        //start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
-        for (i = 1; i < (rows.length - 1); i++) {
-            //start by saying there should be no switching:
-            shouldSwitch = false;
-
-            x = (rows[i].getElementsByTagName("TD")[n]);
-            y = rows[i + 1].getElementsByTagName("TD")[n];
-            /*check if the two rows should switch place,
-            based on the direction, asc or desc:*/
-            if (dir == "asc") {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    //if so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            } else if (dir == "desc") {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                    //if so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-        }
-        if (shouldSwitch) {
-            /*If a switch has been marked, make the switch
-            and mark that a switch has been done:*/
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            //Each time a switch is done, increase this count by 1:
-            switchcount++;
-        } else {
-            /*If no switching has been done AND the direction is "asc",
-            set the direction to "desc" and run the while loop again.*/
-            if (switchcount == 0 && dir == "asc") {
-                dir = "desc";
-                switching = true;
-            }
-        }
-    }
-}
 
 // popup function
 function hide() {
     document.getElementById('popupdata').style.display = 'none';
+
+
 };
 
 function show() {
     document.getElementById('popupdata').style.display = 'block';
+
 };
+document.getElementById("popupdata").reset();
 
 
 function AddRow() {
+
 
     let date = new Date();
     let day = date.getDate();
@@ -199,25 +255,29 @@ function AddRow() {
 
     let arr = { "id": id, "salutation": salutation, "firstname": firstname, "lastname": lastname, "email": email, "gender": gender, "phoneno": phoneno, "country": country, "state": state, "city": city, "date": current };
     console.log(index);
+
+    // alert('rrrrrrrr' + index);
     if (index == "" || index == undefined) {
         //    validate(); 
+
         persondoc.push(arr);
-        hide();
+        formData(persondoc);
+        show();
 
     }
     else {
+
         persondoc.splice(index, 1, arr);
-        addAlert();
-
-
+        //    addAlert();
+        show();
     }
+
     formData(persondoc);
-    // hide();
+    hide();
+    // reset();
 
+};
 
-
-
-}
 
 // delete user
 function deleteUser(i) {
@@ -230,40 +290,53 @@ function deleteUser(i) {
     deletemsg();
 
 
+};
 
-}
-// country n state fields
-const selectedCountry = document.getElementById('countrys');
-selectedCountry.addEventListener('blur', (e) => {
-    let seenState = '';
-    console.log(seenstate);
-    if (selectedCountry.value === 'India') {
-        const states_india = ['Kerala', 'Tamil Nadu', 'Karnataka',
-            'Telangana', 'Andhra Pradesh', 'Arunachal Pradesh',
-            'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat'];
-        states_india.forEach(state => {
-            seenstate += `
-                <option>${state}</option> `
+// country state 
+const selectCountry = document.getElementById('countrys');
+selectCountry.addEventListener('click', (e) => {
+    let stateform = '';
+    console.log(stateform);
+    if (selectCountry.value === 'India') {
+        document.getElementById('selected').value = '';
+        const indianstate = ['Kerala', 'Karnataka', 'Banglore'];
+        indianstate.forEach(state => {
+            stateform += `
+                <option>${state}</option>`
         });
-        console.log(seenstate);
-    } else {
-        const Canadastate = ['Alberta', 'Manitoba', 'Novia Scotia'];
-        Canadastate.forEach(state => {
-            seenstate += `
-                <option>${state}</option> `
-        });
-        console.log(seenState);
+        console.log(stateform);
+        document.getElementById("selected").innerHTML = stateform;
     }
-    document.getElementById("selected").innerHTML = seenstate;
-})
+    if (selectCountry.value === 'Canada') {
+        document.getElementById('selected').value = '';
+        const stateanother = ['Alberta', 'Manitoba', 'Novia scotiba'];
+        stateanother.forEach(state => {
+            stateform += `
+                <option>${state}</option> `
+        });
+        console.log(stateform);
+        document.getElementById("selected").innerHTML = stateform;
+    }
+    if (selectCountry.value === 'Germany') {
+        document.getElementById('selected').value = '';
+        const stateanother = ['Usco'];
+        stateanother.forEach(state => {
+            stateform += `
+                <option>${state}</option> `
+        });
+        console.log(stateform);
+        document.getElementById("selected").innerHTML = stateform;
+    }
+});
 
-// alert messages
+
+// message function
 function deletemsg() {
     document.querySelector(".removed").style.visibility = "visible";
     setTimeout(function () {
         document.querySelector(".removed").style.visibility = "hidden";
     }, 2000);
-}
+};
 
 function addAlert() {
     document.querySelector(".addalert").style.visibility = "visible";
@@ -271,18 +344,20 @@ function addAlert() {
         document.querySelector(".addalert").style.visibility = "hidden";
     }, 3000);
 
-}
+};
+
 function changeAlert() {
     document.querySelector(".changealert").style.visibility = "visible";
     setTimeout(function () {
         document.querySelector(".changealert").style.visibility = "hidden";
     }, 3000);
 
-}
+};
 // Edit User
 
 function editUser(i) {
     show();
+
 
 
 
@@ -299,11 +374,120 @@ function editUser(i) {
     document.getElementById('countrys').value = arr.country;
     document.getElementById('selected').value = arr.state;
     document.getElementById('city').value = arr.city;
-
     document.getElementById('index').value = i;
 
 
 
-}
+};
+// validation
+
+let id = document.getElementById('id');
+let msg = document.querySelector('.msg');
+let salutation = document.getElementById('salutation1');
+let firstname = document.getElementById('firstname');
+let lastname = document.getElementById('lastname');
+let email = document.getElementById('email');
+let phone = document.getElementById('phoneno');
+let city = document.getElementById("city");
+
+id.addEventListener('input', function () {
+    if (id.value.length > 2 || id.value === '') {
+        id.style.color = 'red';
+        document.getElementById('msgId').innerHTML = "**Not large than 2";
+        msg.style.color = 'red';
+
+    }
+    else {
+        document.getElementById('msgId').innerHTML = "";
+        id.style.color = 'black';
+    }
+
+});
+// let doc = document.getElementById("id").value;
+// for (let i = 0; i < persondoc.length; i++) {
+//     if ((persondoc[i].id == doc));
+//     document.getElementById('msgId').innerHTML = "**Not large than 2";
+// };
 
 
+
+
+
+salutation.addEventListener('input', function () {
+    if (salutation.value.length > 3 || salutation.value === '') {
+        document.getElementById('msgSalutation').innerHTML = "**Not large than 3";
+        msg.style.color = 'red';
+        salutation.style.color = 'red';
+
+    }
+    else {
+        document.getElementById('msgSalutation').innerHTML = "";
+        salutation.style.color = 'black';
+    }
+})
+
+firstname.addEventListener('input', function () {
+    if (firstname.value.length <= 0 || firstname.value === '') {
+        firstname.style.color = 'red';
+
+        document.getElementById('msgfirstname').innerHTML = "**Enter valid name";
+        msg.style.color = 'red';
+
+    }
+    else {
+        document.getElementById('msgfirstname').innerHTML = "";
+        firstname.style.color = 'black';
+    }
+})
+lastname.addEventListener('input', function () {
+    if (lastname.value.length > 8 || lastname.value === '') {
+        lastname.style.color = 'black';
+        document.getElementById('msglastname').innerHTML = "**Not  large than 8";
+        msg.style.color = 'red';
+
+    }
+    else {
+        document.getElementById('msglastname').innerHTML = "";
+        lastname.style.color = 'black';
+    }
+})
+email.addEventListener('input', function () {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!email.value.match(re)) {
+        document.getElementById('msgemail').innerHTML = "**Enter Valid email";
+        msg.style.color = 'red';
+        email.style.color = 'red';
+    }
+    else {
+        document.getElementById('msgemail').innerHTML = "";
+        email.style.color = 'black';
+    }
+
+})
+
+
+phone.addEventListener('input', function () {
+    let phoneno = /^\d{10}$/;
+    if (!phone.value.match(phoneno)) {
+        document.getElementById('msgno').innerHTML = "** Enter 10 digits";
+        msg.style.color = 'red';
+        phone.style.color = 'black';
+    }
+    else {
+        document.getElementById('msgno').innerHTML = "";
+        phone.style.color = 'black';
+    }
+})
+city.addEventListener('input', function () {
+    if (city.value.length > 10 || city.value === '') {
+        document.getElementById('msgcity').innerHTML = "**Not larger than 10";
+        msg.style.color = 'red';
+        city.style.color = 'black';
+
+    }
+    else {
+        document.getElementById('msgcity').innerHTML = "";
+        city.style.color = 'black';
+    }
+});

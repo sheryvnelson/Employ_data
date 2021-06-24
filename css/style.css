@@ -10,10 +10,8 @@
 #Tablelist  td,th{
 
    font-size:18px;
-   
-   
     border: solid  1px rgb(87, 86, 86);
-    /* border-collapse: collapse; */
+    /* border-collapse: collapse;  */
     padding: 5px 5px;
     text-align: center;
 }
@@ -28,6 +26,7 @@
     box-shadow:2px 2px 5px 5px rgb(0,0,0,0,15) ;
     border-radius: 10px ;
     display:none;
+    color:black;
 
 }
 
@@ -93,10 +92,17 @@ select {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     visibility: hidden;
   }
+  .msg {
+    
+    
+    color: red;
+    
+}
 
 .pagination{
     margin-top: 5px;
     padding-left:600px;
+
     
 }
 .pagination a {
@@ -109,6 +115,7 @@ select {
   background-color: rgb(241, 231, 231);
   color: rgb(58, 55, 55);
   border-radius: 5px;
+
 }
 
 .pagination a:hover {
