@@ -1,6 +1,6 @@
 // Retrieving Data from json file
 
-// globally  declared array.
+
 let persondoc = [];
 let page = 0;
 
@@ -27,7 +27,7 @@ function formData(arrays) {
     var docs = `<tr>
                 <th>ID</th>
                 <th>Salutation</th>
-                 <th > FirstName <button id="namecol" class="namesort"><i class="fas fa-sort"></i></button> 
+                 <th onclick = "sortTable(2)">FIRST NAME<i class="fas fa-arrows-alt-v"></i></th>
                 <th>LastName</th>
                 <th>Email</th>
                 <th>Gender</th>
@@ -35,7 +35,7 @@ function formData(arrays) {
                 <th>Country</th>
                 <th>State</th>
                 <th>City</th>
-                <th >Date<button id="datecol" class="datesort"><i class="fas fa-sort"></i></button>
+                <th 
                 </th>
                 <th>Options</th>
                 </tr>`;
@@ -67,7 +67,7 @@ document.getElementById("previ").addEventListener("click", function () {
     const start = page * no;
     const end = page * no + no;
     const temp = persondoc.slice(start, end);
-    console.log(temp);
+    // console.log(temp);
     formData(temp);
 });
 
@@ -98,92 +98,92 @@ usersearch.addEventListener('keyup', (e) => {
     // Get searching input
     const textinput = e.target.value;
     const filtername = persondoc.filter(data => (data.firstname.toLowerCase()).match(textinput.toLowerCase()));
-    console.log(filtername);
+    // console.log(filtername);
     formData(filtername);
 
 });
 
 
 // sorting by name
-// function sortTable(n) {
-//     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-//     table = document.getElementById("Tablelist");
-//     switching = true;
-//     //Set the sorting direction to ascending:
-//     dir = "asc";
-//     /*Make a loop that will continue until
-//     no switching has been done:*/
-//     while (switching) {
-//         //start by saying: no switching is done:
-//         switching = false;
-//         rows = table.rows;
-//         /*Loop through all table rows (except the
-//         first, which contains table headers):*/
-//         for (i = 1; i < (rows.length - 1); i++) {
-//             //start by saying there should be no switching:
-//             shouldSwitch = false;
-//             /*Get the two elements you want to compare,
-//             one from current row and one from the next:*/
-//             x = rows[i].getElementsByTagName("TD")[n];
-//             y = rows[i + 1].getElementsByTagName("TD")[n];
-//             /*check if the two rows should switch place,
-//             based on the direction, asc or desc:*/
-//             if (dir == "asc") {
-//                 if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-//                     //if so, mark as a switch and break the loop:
-//                     shouldSwitch = true;
-//                     break;
-//                 }
-//             } else if (dir == "desc") {
-//                 if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-//                     //if so, mark as a switch and break the loop:
-//                     shouldSwitch = true;
-//                     break;
-//                 }
-//             }
-//         }
-//         if (shouldSwitch) {
+function sortTable(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("Tablelist");
+    switching = true;
+    //Set the sorting direction to ascending:
+    dir = "asc";
+    /*Make a loop that will continue until
+    no switching has been done:*/
+    while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+        first, which contains table headers):*/
+        for (i = 1; i < (rows.length - 1); i++) {
+            //start by saying there should be no switching:
+            shouldSwitch = false;
+            /*Get the two elements you want to compare,
+            one from current row and one from the next:*/
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            /*check if the two rows should switch place,
+            based on the direction, asc or desc:*/
+            if (dir == "asc") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            } else if (dir == "desc") {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+        if (shouldSwitch) {
 
-//             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-//             switching = true;
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
 
-//             switchcount++;
-//         } else {
-//             /*If no switching has been done AND the direction is "asc",
-//             set the direction to "desc" and run the while loop again.*/
-//             if (switchcount == 0 && dir == "asc") {
-//                 dir = "desc";
-//                 switching = true;
-//             }
-//         }
-//     }
-// }
-
-// sort
-
-let ascendname = true;
-let namesorts = document.getElementById('Tablelist');
-namesorts.addEventListener('click', (e) => {
-    if (ascendname) {
-        persondoc.sort((a, b) => {
-            ascendname = false;
-            var firstName = a.firstname.toLowerCase();
-            var secondName = b.firstname.toLowerCase();
-
-            return (firstName < secondName) ? -1 : (firstName > secondName) ? 1 : 0;
-        })
-
-    } else {
-        persondoc.sort((a, b) => {
-            ascendname = true;
-            var firstName = a.firstname.toLowerCase();
-            var secondName = b.firstname.toLowerCase();
-
-            return (firstName < secondName) ? 1 : (firstName > secondName) ? -1 : 0;
-        })
+            switchcount++;
+        } else {
+            /*If no switching has been done AND the direction is "asc",
+            set the direction to "desc" and run the while loop again.*/
+            if (switchcount == 0 && dir == "asc") {
+                dir = "desc";
+                switching = true;
+            }
+        }
     }
-    formData(persondoc);
-});
+}
+
+//  sorting
+
+// let ascendname = true;
+// let namesorts = document.getElementById('namecol');
+// namesorts.addEventListener('click', (e) => {
+//     if (ascendname) {
+//         persondoc.sort((a, b) => {
+//             ascendname = false;
+//             var firstName = a.firstname.toLowerCase();
+//             var secondName = b.firstname.toLowerCase();
+
+//             return (firstName < secondName) ? -1 : (firstName > secondName) ? 1 : 0;
+//         })
+
+//     } else {
+//         persondoc.sort((a, b) => {
+//             ascendname = true;
+//             var firstName = a.firstname.toLowerCase();
+//             var secondName = b.firstname.toLowerCase();
+
+//             return (firstName < secondName) ? 1 : (firstName > secondName) ? -1 : 0;
+//         })
+//     }
+//     formData(persondoc);
+// });
 
 // let isAscDate = true;
 // // let isAscDateSorted = true;
@@ -221,6 +221,7 @@ namesorts.addEventListener('click', (e) => {
 
 // popup function
 function hide() {
+
     document.getElementById('popupdata').style.display = 'none';
 
 
@@ -230,12 +231,9 @@ function show() {
     document.getElementById('popupdata').style.display = 'block';
 
 };
-document.getElementById("popupdata").reset();
 
 
 function AddRow() {
-
-
     let date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -251,32 +249,56 @@ function AddRow() {
     var country = document.getElementById("countrys").value;
     var state = document.getElementById("selected").value;
     var city = document.getElementById("city").value;
-    let index = document.getElementById('index').value;
+    var index = document.getElementById("index").value;
+
 
     let arr = { "id": id, "salutation": salutation, "firstname": firstname, "lastname": lastname, "email": email, "gender": gender, "phoneno": phoneno, "country": country, "state": state, "city": city, "date": current };
     console.log(index);
-
-    // alert('rrrrrrrr' + index);
     if (index == "" || index == undefined) {
-        //    validate(); 
-
         persondoc.push(arr);
         formData(persondoc);
-        show();
+        resetmyform();
+        // clear();
 
-    }
-    else {
 
+        hide();
+
+
+        // showAlert('Successfully Added!!!', 'success');
+
+
+    } else {
         persondoc.splice(index, 1, arr);
-        //    addAlert();
-        show();
+        changeAlert('Successfully Edited!!!', 'success');
+
+        document.getElementById('btnSave').innerHTML = "Save";
+        // document.getElementById('btn').innerHTML = "Edit";
     }
-
     formData(persondoc);
-    hide();
-    // reset();
+    // console.log(data)
 
+    hide();
+
+    // console.log(a)
 };
+
+
+function resetmyform() {
+    firstname = document.getElementById("firstname").value = "";
+    id = document.getElementById("id").value = "";
+    salutation = document.getElementById("salutation1").value = "";
+    firstname = document.getElementById("firstname").value = "";
+    lastname = document.getElementById("lastname").value = "";
+    email = document.getElementById("email").value = "";
+    gender = document.querySelector('input[type=radio][name=gender]:checked').value = "";
+    phoneno = document.getElementById("phoneno").value = "";
+    country = document.getElementById("countrys").value = "";
+    state = document.getElementById("selected").value = "";
+    city = document.getElementById("city").value = "";
+    index = document.getElementById("index").value = "";
+    // reset();
+}
+
 
 
 // delete user
@@ -413,21 +435,10 @@ id.addEventListener('input', function () {
 
 
 
-salutation.addEventListener('input', function () {
-    if (salutation.value.length > 3 || salutation.value === '') {
-        document.getElementById('msgSalutation').innerHTML = "**Not large than 3";
-        msg.style.color = 'red';
-        salutation.style.color = 'red';
 
-    }
-    else {
-        document.getElementById('msgSalutation').innerHTML = "";
-        salutation.style.color = 'black';
-    }
-})
 
 firstname.addEventListener('input', function () {
-    if (firstname.value.length <= 0 || firstname.value === '') {
+    if (firstname.value.length > 10 || firstname.value === '') {
         firstname.style.color = 'red';
 
         document.getElementById('msgfirstname').innerHTML = "**Enter valid name";
@@ -438,9 +449,9 @@ firstname.addEventListener('input', function () {
         document.getElementById('msgfirstname').innerHTML = "";
         firstname.style.color = 'black';
     }
-})
+});
 lastname.addEventListener('input', function () {
-    if (lastname.value.length > 8 || lastname.value === '') {
+    if (lastname.value.length > 10 || lastname.value === '') {
         lastname.style.color = 'black';
         document.getElementById('msglastname').innerHTML = "**Not  large than 8";
         msg.style.color = 'red';
@@ -450,7 +461,7 @@ lastname.addEventListener('input', function () {
         document.getElementById('msglastname').innerHTML = "";
         lastname.style.color = 'black';
     }
-})
+});
 email.addEventListener('input', function () {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -464,7 +475,7 @@ email.addEventListener('input', function () {
         email.style.color = 'black';
     }
 
-})
+});
 
 
 phone.addEventListener('input', function () {
@@ -478,7 +489,7 @@ phone.addEventListener('input', function () {
         document.getElementById('msgno').innerHTML = "";
         phone.style.color = 'black';
     }
-})
+});
 city.addEventListener('input', function () {
     if (city.value.length > 10 || city.value === '') {
         document.getElementById('msgcity').innerHTML = "**Not larger than 10";
