@@ -4,6 +4,7 @@
 let persondoc = [];
 let page = 0;
 
+
 fetch("detail.json")
 
     .then(function (response) {
@@ -27,7 +28,8 @@ function formData(arrays) {
     var docs = `<tr>
                 <th>ID</th>
                 <th>Salutation</th>
-                 <th onclick = "sortTable(2)">FIRST NAME<i class="fas fa-sort"></i></th>
+                 <th>FirstName <button id="namecol" class="namesort" onclick="sortname()"  ><i class="fas fa-sort" ></i></button></th>
+    
                 <th>LastName</th>
                 <th>Email</th>
                 <th>Gender</th>
@@ -35,9 +37,10 @@ function formData(arrays) {
                 <th>Country</th>
                 <th>State</th>
                 <th>City</th>
-                <th onclick = "sortTable(10 ,'y-m-dd')">Date<i class="fas fa-sort"></i></th>
+                <th >Date<button id="datecol" class="datesort" onclick="datesort()"><i class="fas fa-sort"></i></button>
                 <th>Options</th>
                 </tr>`;
+    // onclick = "sortTable(2)">FIRST NAME<i class="fas fa-sort"></i></th>
     // <button id="namecol" class="namesort"><i class="fas fa-sort"></i></button> 
     // <button id="datecol" class="datesort"><i class="fas fa-sort"></i></button>
     arrays.forEach(function (arr, i) {
@@ -66,6 +69,7 @@ document.getElementById("previ").addEventListener("click", function () {
     const start = page * no;
     const end = page * no + no;
     const temp = persondoc.slice(start, end);
+    document.getElementById("next").style.display = 'block';
     // console.log(temp);
     formData(temp);
 });
@@ -100,121 +104,70 @@ usersearch.addEventListener('keyup', (e) => {
     // console.log(filtername);
     formData(filtername);
 
+
 });
 
 
-// sorting by name
-function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("Tablelist");
-    switching = true;
-    //Set the sorting direction to ascending:
-    dir = "asc";
-    /*Make a loop that will continue until
-    no switching has been done:*/
-    while (switching) {
-        //start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
-        for (i = 1; i < (rows.length - 1); i++) {
-            //start by saying there should be no switching:
-            shouldSwitch = false;
-            /*Get the two elements you want to compare,
-            one from current row and one from the next:*/
-            x = rows[i].getElementsByTagName("TD")[n];
-            y = rows[i + 1].getElementsByTagName("TD")[n];
-            /*check if the two rows should switch place,
-            based on the direction, asc or desc:*/
-            if (dir == "asc") {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    //if so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            } else if (dir == "desc") {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                    //if so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-        }
-        if (shouldSwitch) {
+// sorting
+let ascendname = true;
 
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
+function sortname() {
 
-            switchcount++;
-        } else {
-            /*If no switching has been done AND the direction is "asc",
-            set the direction to "desc" and run the while loop again.*/
-            if (switchcount == 0 && dir == "asc") {
-                dir = "desc";
-                switching = true;
-            }
-        }
+
+
+    if (ascendname) {
+        persondoc.sort((a, b) => {
+            ascendname = false;
+            var firstName = a.firstname.toLowerCase();
+            var secondName = b.firstname.toLowerCase();
+
+            return (firstName < secondName) ? -1 : (firstName > secondName) ? 1 : 0;
+        });
+
+    } else {
+        persondoc.sort((a, b) => {
+            ascendname = true;
+            var firstName = a.firstname.toLowerCase();
+            var secondName = b.firstname.toLowerCase();
+
+            return (firstName < secondName) ? 1 : (firstName > secondName) ? -1 : 0;
+            console.log(((firstName < secondName) ? -1 : (firstName > secondName) ? 1 : 0));
+        });
     }
-}
+    formData(persondoc);
+};
+// datesort
 
-//  sorting
 
-// let ascendname = true;
-// let namesorts = document.getElementById('namecol');
-// namesorts.addEventListener('click', (e) => {
-//     if (ascendname) {
+// let datesorted = true;
+
+// function datesort() {
+
+//     if (datesorted) {
 //         persondoc.sort((a, b) => {
-//             ascendname = false;
-//             var firstName = a.firstname.toLowerCase();
-//             var secondName = b.firstname.toLowerCase();
 
-//             return (firstName < secondName) ? -1 : (firstName > secondName) ? 1 : 0;
-//         })
+//             datesorted = false;
+//             var date1 = new Date(a.date);
 
+//             var date2 = new Date(b.date);
+//             // Ternary Operator (if it will check the condition ) then -1 else if()
+//             return (date1 - date2);
+//         });
 //     } else {
 //         persondoc.sort((a, b) => {
-//             ascendname = true;
-//             var firstName = a.firstname.toLowerCase();
-//             var secondName = b.firstname.toLowerCase();
+//             datesorted = true;
+//             var date1 = new Date(a.date);
 
-//             return (firstName < secondName) ? 1 : (firstName > secondName) ? -1 : 0;
-//         })
-//     }
-//     formData(persondoc);
-// });
+//             var date2 = new Date(b.date);
 
-// let isAscDate = true;
-// // let isAscDateSorted = true;
-// const sortdate = document.getElementById('datecol');
-
-// sortdate.addEventListener('blur', (e) => {
-//     if (isAscDate) {
-//         persondoc.sort((a, b) => {
-
-//             isAscDate = false;
-//             console.log("date" + a.date);
-//             var date = Date(a.date);
-
-//             console.log(date);
-//             var secondDate = Date(b.date);
 //             // Ternary Operator (if it will check the condition ) then -1 else if()
-//             return (date - secondDate);
-//         })
-//     } else {
-//         persondoc.sort((a, b) => {
-//             isAscDate = true;
-//             var date = Date(a.date);
-
-//             var secondDate = Date(b.date);
-//             // Ternary Operator (if it will check the condition ) then -1 else if()
-//             return (secondDate - date);
-//         })
-//     }
-//     formData(persondoc);
-// });
+//             return (date2 - date1);
+//         });
+//         formData(persondoc);
+//     };
 
 
+// };
 
 
 
@@ -237,7 +190,7 @@ function AddRow() {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    let current = day + '-' + month + '-' + year;
+    let current = day + '/' + month + '/' + year;
     let id = document.getElementById("id").value;
     let salutation = document.getElementById("salutation1").value;
     let firstname = document.getElementById("firstname").value;
@@ -257,6 +210,7 @@ function AddRow() {
         persondoc.push(arr);
         formData(persondoc);
         resetmyform();
+        addAlert();
         // clear();
 
 
@@ -273,6 +227,7 @@ function AddRow() {
         document.getElementById('btnSave').innerHTML = "Save";
         // document.getElementById('btn').innerHTML = "Edit";
     }
+
     formData(persondoc);
     // console.log(data)
 
@@ -296,7 +251,7 @@ function resetmyform() {
     city = document.getElementById("city").value = "";
     index = document.getElementById("index").value = "";
     // reset();
-}
+};
 
 
 
@@ -377,7 +332,8 @@ function changeAlert() {
 // Edit User
 
 function editUser(i) {
-    show();
+
+
 
 
 
@@ -399,6 +355,8 @@ function editUser(i) {
 
 
 
+
+    show();
 };
 // validation
 
@@ -417,23 +375,21 @@ id.addEventListener('input', function () {
         document.getElementById('msgId').innerHTML = "**Not large than 2";
         msg.style.color = 'red';
 
+        // } else if()
+        //     let doc = document.getElementById("id").value;
+        //     for(let i = 0; i<persondoc.length; i++) {
+        //     if ((persondoc[i].id == doc));
+        //     document.getElementById('msgId').innerHTML = "**Already exists";
+        // }
+        //     }  
     }
+
     else {
         document.getElementById('msgId').innerHTML = "";
         id.style.color = 'black';
     }
 
 });
-// let doc = document.getElementById("id").value;
-// for (let i = 0; i < persondoc.length; i++) {
-//     if ((persondoc[i].id == doc));
-//     document.getElementById('msgId').innerHTML = "**Not large than 2";
-// };
-
-
-
-
-
 
 
 firstname.addEventListener('input', function () {
