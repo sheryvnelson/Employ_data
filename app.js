@@ -27,7 +27,7 @@ function formData(arrays) {
     var docs = `<tr>
                 <th>ID</th>
                 <th>Salutation</th>
-                 <th onclick = "sortTable(2)">FIRST NAME<i class="fas fa-arrows-alt-v"></i></th>
+                 <th onclick = "sortTable(2)">FIRST NAME<i class="fas fa-sort"></i></th>
                 <th>LastName</th>
                 <th>Email</th>
                 <th>Gender</th>
@@ -35,8 +35,7 @@ function formData(arrays) {
                 <th>Country</th>
                 <th>State</th>
                 <th>City</th>
-                <th 
-                </th>
+                <th onclick = "sortTable(10 ,'y-m-dd')">Date<i class="fas fa-sort"></i></th>
                 <th>Options</th>
                 </tr>`;
     // <button id="namecol" class="namesort"><i class="fas fa-sort"></i></button> 
