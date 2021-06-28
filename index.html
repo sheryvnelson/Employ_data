@@ -40,8 +40,7 @@
             User</button>
     </div>
     <!-- userRegistration -->
-    <form name="myform" class="popup " id="popupdata" onsubmit=" AddRow()" ; event.preventDefault(); ; return false"
-        autocomplete="off">
+    <form name="myform" class="popup " id="popupdata" onsubmit="event.preventDefault();AddRow() ;" autocomplete="off">
 
         <div class="form">
             <input type="hidden" id="index">
@@ -81,11 +80,7 @@
                 <input name="num" type="number" id="phoneno" placeholder="Enter Phone No">
                 <span class="msg" id="msgno"></span>
             </div>
-            <div class="form-element">
-                <label for="city">City</label>
-                <input type="text" id="city" placeholder="Enter city name">
-                <span class="msg" id="msgcity"></span>
-            </div>
+
 
             <div class="form-element">
                 <label for="Gender"><b>Gender</b></label>
@@ -96,7 +91,13 @@
                 <input type="radio" id="other" name="gender" value="other">
                 <label for="other">Other</label>
             </div>
+
             <br>
+            <div class="form-element">
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="Enter city name">
+                <span class="msg" id="msgcity"></span>
+            </div>
             <div class="form-element">
                 <label>Country</label>
                 <select id="countrys">
@@ -111,7 +112,7 @@
 
 
             <label>State</label>
-            <select id="selected">
+            <select id="state">
                 <option></option>
 
             </select>

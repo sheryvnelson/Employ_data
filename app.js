@@ -3,6 +3,7 @@
 
 let persondoc = [];
 let page = 0;
+let paginationArray = [];
 
 
 fetch("detail.json")
@@ -16,6 +17,7 @@ fetch("detail.json")
         const start = page * no;
         const end = page * no + no;
         const temp = persondoc.slice(start, end);
+        paginationArray = temp;
         // console.log(temp);
         formData(temp);
 
@@ -44,6 +46,7 @@ function formData(arrays) {
     // <button id="namecol" class="namesort"><i class="fas fa-sort"></i></button> 
     // <button id="datecol" class="datesort"><i class="fas fa-sort"></i></button>
     arrays.forEach(function (arr, i) {
+
         docs += `<tr>
                 <td>${arr.id}</td>
                 <td>${arr.salutation}</td>
@@ -56,6 +59,7 @@ function formData(arrays) {
                <td>${arr.state}</td>
                 <td>${arr.city}</td>
                 <td>${arr.date}</td>
+                
                 <td><a onclick = editUser(${i})  class="edit"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;
                 <a class='delete'  onclick = deleteUser(${i})><i class="fas fa-remove"></i></a></td></tr>`;
     })
@@ -69,8 +73,9 @@ document.getElementById("previ").addEventListener("click", function () {
     const start = page * no;
     const end = page * no + no;
     const temp = persondoc.slice(start, end);
-    document.getElementById("next").style.display = 'block';
+    // document.getElementById("next").style.display = 'block';
     // console.log(temp);
+    paginationArray = temp;
     formData(temp);
 });
 
@@ -81,12 +86,13 @@ document.getElementById("next").addEventListener("click", function () {
     const end = no + 9;
     const temp = persondoc.slice(start, end);
     console.log(temp);
+    paginationArray = temp;
     formData(temp);
 
 });
 
 document.getElementById("all").addEventListener("click", function () {
-
+    paginationArray = persondoc;
     // formData(temp);
     formData(persondoc);
 });
@@ -95,14 +101,37 @@ document.getElementById("all").addEventListener("click", function () {
 
 //Search input
 
+// const usersearch = document.getElementById('search-input');
+// // Search input Eventlistner
+// usersearch.addEventListener('keyup', (e) => {
+//     // Get searching input
+//     const textinput = e.target.value;
+//     const filtername = persondoc.filter(data => (data.firstname.toLowerCase()).match(textinput.toLowerCase()));
+//     // console.log(filtername);
+//     formData(filtername);
+
+// search
+
 const usersearch = document.getElementById('search-input');
 // Search input Eventlistner
-usersearch.addEventListener('keyup', (e) => {
-    // Get searching input
-    const textinput = e.target.value;
-    const filtername = persondoc.filter(data => (data.firstname.toLowerCase()).match(textinput.toLowerCase()));
-    // console.log(filtername);
-    formData(filtername);
+usersearch.addEventListener('keyup', (e) => {    // Get searching input
+    const searchString = e.target.value;
+    let stringComparingFlag;
+    let newArrayPerson = [];
+    if (searchString.length > 0) {
+        // alert("ppppp" + paginationArray);
+        paginationArray.forEach(function (person) {
+            stringifiedPerson = JSON.stringify(person);
+            stringComparingFlag = stringifiedPerson.toLowerCase().search(searchString.toLowerCase());
+            if (stringComparingFlag > 0) {
+                newArrayPerson.push(person);
+            }
+        });
+        formData(newArrayPerson);
+    }
+    else {
+        formData(paginationArray);
+    }
 
 
 });
@@ -137,38 +166,32 @@ function sortname() {
     formData(persondoc);
 };
 // datesort
-
-
-// let datesorted = true;
-
-// function datesort() {
-
-//     if (datesorted) {
-//         persondoc.sort((a, b) => {
-
-//             datesorted = false;
-//             var date1 = new Date(a.date);
-
-//             var date2 = new Date(b.date);
-//             // Ternary Operator (if it will check the condition ) then -1 else if()
-//             return (date1 - date2);
-//         });
-//     } else {
-//         persondoc.sort((a, b) => {
-//             datesorted = true;
-//             var date1 = new Date(a.date);
-
-//             var date2 = new Date(b.date);
-
-//             // Ternary Operator (if it will check the condition ) then -1 else if()
-//             return (date2 - date1);
-//         });
-//         formData(persondoc);
-//     };
-
-
-// };
-
+let datesorted = true;
+let b;
+function datesort() {
+    console.log(123);
+    if (datesorted) {
+        datesorted = false;
+        persondoc.sort((a, b) => {
+            var date1 = new Date(a.date);
+            var date2 = new Date(b.date);
+            b = date1 - date2;
+            console.log(b);
+            return b;
+        });
+    }
+    else {
+        datesorted = true;
+        console.log('abc');
+        persondoc.sort((a, b) => {
+            var date1 = new Date(a.date);
+            var date2 = new Date(b.date);
+            b = date2 - date1;
+            return b;
+        });
+    };
+    formData(persondoc);
+};
 
 
 // popup function
@@ -176,7 +199,7 @@ function hide() {
 
     document.getElementById('popupdata').style.display = 'none';
 
-
+    resetmyform();
 };
 
 function show() {
@@ -190,7 +213,7 @@ function AddRow() {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    let current = day + '/' + month + '/' + year;
+    let current = day + '-' + month + '-' + year;
     let id = document.getElementById("id").value;
     let salutation = document.getElementById("salutation1").value;
     let firstname = document.getElementById("firstname").value;
@@ -199,7 +222,7 @@ function AddRow() {
     var gender = document.querySelector('input[type=radio][name=gender]:checked').value;
     var phoneno = document.getElementById("phoneno").value;
     var country = document.getElementById("countrys").value;
-    var state = document.getElementById("selected").value;
+    var state = document.getElementById("state").value;
     var city = document.getElementById("city").value;
     var index = document.getElementById("index").value;
 
@@ -209,7 +232,7 @@ function AddRow() {
     if (index == "" || index == undefined) {
         persondoc.push(arr);
         formData(persondoc);
-        resetmyform();
+        // resetmyform();
         addAlert();
         // clear();
 
@@ -247,7 +270,7 @@ function resetmyform() {
     gender = document.querySelector('input[type=radio][name=gender]:checked').value = "";
     phoneno = document.getElementById("phoneno").value = "";
     country = document.getElementById("countrys").value = "";
-    state = document.getElementById("selected").value = "";
+    state = document.getElementById("state").value = "";
     city = document.getElementById("city").value = "";
     index = document.getElementById("index").value = "";
     // reset();
@@ -274,34 +297,34 @@ selectCountry.addEventListener('click', (e) => {
     let stateform = '';
     console.log(stateform);
     if (selectCountry.value === 'India') {
-        document.getElementById('selected').value = '';
-        const indianstate = ['Kerala', 'Karnataka', 'Banglore'];
+        document.getElementById('state').value = '';
+        const indianstate = ['Kerala', 'Karnataka', 'Banglore', 'Assam'];
         indianstate.forEach(state => {
             stateform += `
                 <option>${state}</option>`
         });
         console.log(stateform);
-        document.getElementById("selected").innerHTML = stateform;
+        document.getElementById("state").innerHTML = stateform;
     }
     if (selectCountry.value === 'Canada') {
-        document.getElementById('selected').value = '';
+        document.getElementById('state').value = '';
         const stateanother = ['Alberta', 'Manitoba', 'Novia scotiba'];
         stateanother.forEach(state => {
             stateform += `
                 <option>${state}</option> `
         });
         console.log(stateform);
-        document.getElementById("selected").innerHTML = stateform;
+        document.getElementById('state').innerHTML = stateform;
     }
     if (selectCountry.value === 'Germany') {
-        document.getElementById('selected').value = '';
+        document.getElementById('state').value = '';
         const stateanother = ['Usco'];
         stateanother.forEach(state => {
             stateform += `
                 <option>${state}</option> `
         });
         console.log(stateform);
-        document.getElementById("selected").innerHTML = stateform;
+        document.getElementById('state').innerHTML = stateform;
     }
 });
 
@@ -334,13 +357,13 @@ function changeAlert() {
 function editUser(i) {
 
 
-
-
+    show();
 
 
     // console.log(i)
     var arr = persondoc[i];
-    // console.log(arr);
+    //  alert("ppppp" + JSON.stringify(arr));
+    // console.log("ldkslfjidfuhu" + JSON.stringify(arr));
     document.getElementById('id').value = arr.id;
     document.getElementById('salutation1').value = arr.salutation;
     document.getElementById('firstname').value = arr.firstname;
@@ -349,15 +372,14 @@ function editUser(i) {
     document.getElementsByName('gender').value = arr.gender;
     document.getElementById('phoneno').value = arr.phoneno;
     document.getElementById('countrys').value = arr.country;
-    document.getElementById('selected').value = arr.state;
+    document.getElementById('state').value = arr.state;
     document.getElementById('city').value = arr.city;
     document.getElementById('index').value = i;
-
-
-
-
-    show();
 };
+
+
+
+
 // validation
 
 let id = document.getElementById('id');
